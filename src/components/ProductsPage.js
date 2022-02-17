@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Search from './Search';
 import ProductList from './ProductList';
 
-function ProductsPage({products}){
+function ProductsPage({products, categories, suppliers, handleFilterByCategory, handleFilterBySupplier}){
 
     const [search, setSearch] = useState("")
 
@@ -10,7 +10,10 @@ function ProductsPage({products}){
     
     return (
         <main>
-            <Search search={search} setSearch={setSearch}/>
+            <Search search={search} setSearch={setSearch} categories={categories} suppliers={suppliers} 
+                    handleFilterByCategory={handleFilterByCategory}
+                    handleFilterBySupplier={handleFilterBySupplier}
+                    />
             <ProductList products={displayedProducts} />
         </main>
 

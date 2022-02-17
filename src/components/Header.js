@@ -10,7 +10,9 @@ function Header () {
             <Row>
                 <Col><h1>Product</h1></Col>
                 <Col md="auto"></Col>
-                <Col xs lg="2"><Button>Add Product</Button></Col>
+                <Col xs lg="2">
+                    <Button href="/products/new">Add Product</Button>
+                </Col>
             </Row>
         </Container>    
     )
