@@ -15,7 +15,7 @@ function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [suppliers, setSuppliers] = useState([])
-  const [ issueRequest, setIssueRequest ] = useState(false)
+  const [ handleRequest, setHandleRequest ] = useState(false)
   
   function loadAllProducts(){
     fetch(`${SERVER_URL}/products`)
@@ -39,7 +39,7 @@ function App() {
     loadAllProducts();
     loadAllCategories();
     loadAllSuppliers()
-  },[issueRequest])
+  },[handleRequest])
 
   function handleFilterByCategory(categoryValue){
     if (categoryValue === "all"){
@@ -50,6 +50,7 @@ function App() {
         .then(data => setProducts(data.products))
     }
   }
+
   function handleFilterBySupplier(supplierValue){
     if (supplierValue === "all"){
       loadAllProducts()
@@ -60,12 +61,38 @@ function App() {
     }
   }
 
+  function handleAddProduct(formProduct){
+    console.log(formProduct)
+
+    const newProduct = {
+      name: formProduct.name,
+      inventory: formProduct.inventory,
+      image: formProduct.image,
+      retail_price: formProduct.retail_price,
+      category: formProduct.category,
+      supplier: formProduct.supplier
+    }
+
+    fetch(`${SERVER_URL}/products`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newProduct)
+    })
+      .then( r => r.json())
+      .then(setHandleRequest(!handleRequest))
+    
+    const newProductsArray = [...products, newProduct]
+    setProducts(newProductsArray)
+  }
+
   return (
     <div className="App">
       <Switch>
 
         <Route path="/products/new">
-          <AddProductForm categories={categories} suppliers={suppliers}/>
+          <AddProductForm categories={categories} suppliers={suppliers} handleAddProduct={handleAddProduct}/>
         </Route>
 
         <Route path="/products">
